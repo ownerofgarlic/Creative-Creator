@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Run with Purpose — Support Team Shalva NY 2026</title>
+<meta name="description" content="An independent awareness page supporting Team Shalva's TCS New York City Marathon fundraiser for Shalva, a nonprofit serving people with disabilities.">
+<style>
+  :root {
+    --navy: #0f2540;
+    --teal: #1a7a6e;
+    --teal-light: #23a893;
+    --sand: #f7f4ee;
+    --ink: #1c2733;
+    --muted: #5c6b7a;
+    --white: #ffffff;
+    --radius: 14px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    color: var(--ink);
+    background: var(--sand);
+    line-height: 1.6;
+  }
+  a { color: inherit; }
+  .container { max-width: 1040px; margin: 0 auto; padding: 0 24px; }
+
+  /* Disclaimer strip */
+  .disclaimer-bar {
+    background: var(--navy);
+    color: #cfe0dc;
+    font-size: 13px;
+    text-align: center;
+    padding: 10px 16px;
+  }
+  .disclaimer-bar strong { color: #fff; }
+
+  /* Hero */
+  .hero {
+    background: linear-gradient(135deg, var(--navy) 0%, #163a5e 55%, var(--teal) 130%);
+    color: var(--white);
+    padding: 72px 0 88px;
+    text-align: center;
+  }
+  .badge {
+    display: inline-block;
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.35);
+    color: #eafff9;
+    font-size: 13px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    padding: 6px 16px;
+    border-radius: 999px;
+    margin-bottom: 24px;
+  }
+  .hero h1 {
+    font-size: clamp(32px, 5vw, 52px);
+    font-weight: 800;
+    max-width: 760px;
+    margin: 0 auto 18px;
+    letter-spacing: -0.01em;
+  }
+  .hero p.sub {
+    font-size: clamp(16px, 2.2vw, 20px);
+    color: #d9ecf0;
+    max-width: 620px;
+    margin: 0 auto 36px;
+  }
+  .cta-row { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+  .btn {
+    display: inline-block;
+    padding: 15px 30px;
+    border-radius: 999px;
+    font-weight: 700;
+    font-size: 16px;
+    text-decoration: none;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .btn:hover { transform: translateY(-2px); }
+  .btn-primary {
+    background: var(--teal-light);
+    color: #08211c;
+    box-shadow: 0 8px 24px rgba(35,168,147,0.35);
+  }
+  .btn-secondary {
+    background: transparent;
+    color: #fff;
+    border: 1.5px solid rgba(255,255,255,0.55);
+  }
+
+  /* Sections */
+  section { padding: 64px 0; }
+  h2 {
+    font-size: clamp(24px, 3vw, 32px);
+    font-weight: 800;
+    color: var(--navy);
+    margin-bottom: 14px;
+  }
+  .lead {
+    color: var(--muted);
+    max-width: 640px;
+    margin-bottom: 36px;
+    font-size: 17px;
+  }
+
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+  }
+  .card {
+    background: var(--white);
+    border-radius: var(--radius);
+    padding: 26px;
+    box-shadow: 0 1px 3px rgba(15,37,64,0.06), 0 8px 24px rgba(15,37,64,0.04);
+  }
+  .card h3 { font-size: 17px; color: var(--navy); margin-bottom: 8px; }
+  .card p { color: var(--muted); font-size: 15px; }
+
+  .marathon {
+    background: var(--white);
+  }
+  .stat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin-top: 8px;
+  }
+  .stat {
+    background: var(--sand);
+    border-radius: var(--radius);
+    padding: 22px;
+    text-align: center;
+  }
+  .stat .num { font-size: 28px; font-weight: 800; color: var(--teal); }
+  .stat .label { font-size: 13px; color: var(--muted); margin-top: 4px; }
+
+  .progress-wrap { margin-top: 28px; }
+  .progress-track {
+    background: #e4e0d5;
+    border-radius: 999px;
+    height: 14px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    background: linear-gradient(90deg, var(--teal), var(--teal-light));
+    height: 100%;
+    width: 62%;
+  }
+  .progress-note { color: var(--muted); font-size: 13px; margin-top: 8px; }
+
+  .steps {
+    counter-reset: step;
+    display: grid;
+    gap: 18px;
+  }
+  .step {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+    background: var(--white);
+    border-radius: var(--radius);
+    padding: 20px 22px;
+  }
+  .step .n {
+    flex: none;
+    width: 34px; height: 34px;
+    border-radius: 50%;
+    background: var(--navy);
+    color: #fff;
+    font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 15px;
+  }
+  .step h3 { font-size: 16px; color: var(--navy); margin-bottom: 4px; }
+  .step p { color: var(--muted); font-size: 15px; }
+
+  .final-cta {
+    background: var(--navy);
+    color: #fff;
+    text-align: center;
+    padding: 64px 0;
+  }
+  .final-cta h2 { color: #fff; }
+  .final-cta p { color: #cfe0dc; max-width: 560px; margin: 0 auto 30px; }
+
+  footer {
+    background: #0b1c30;
+    color: #93a4b4;
+    font-size: 13px;
+    padding: 32px 0;
+    text-align: center;
+  }
+  footer .fine-print { max-width: 680px; margin: 12px auto 0; color: #6d8093; }
+</style>
+</head>
+<body>
+
+  <div class="disclaimer-bar">
+    <strong>Independent supporter page</strong> — not an official Shalva or Team Shalva channel. All donations are made directly on Shalva's official Jgive campaign page.
+  </div>
+
+  <header class="hero">
+    <div class="container">
+      <span class="badge">Team Shalva · TCS New York City Marathon 2026</span>
+      <h1>Run with Purpose. Empower Extraordinary Lives.</h1>
+      <p class="sub">I'm personally supporting the runners of Team Shalva as they take on the TCS New York City Marathon to raise funds for Shalva — a nonprofit that supports thousands of individuals with disabilities and their families.</p>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="https://www.jgive.com/new/he/ils/donation-targets/167769" target="_blank" rel="noopener">Donate to Team Shalva</a>
+        <a class="btn btn-secondary" href="#why-shalva">Learn About Shalva's Mission</a>
+      </div>
+    </div>
+  </header>
+
+  <section id="why-shalva">
+    <div class="container">
+      <h2>Why Shalva?</h2>
+      <p class="lead">Shalva is a leading nonprofit dedicated to the inclusion and care of people with disabilities, from infancy through adulthood — regardless of religion, gender, or ethnic background.</p>
+      <div class="cards">
+        <div class="card">
+          <h3>Inclusive Care</h3>
+          <p>Serves thousands of children, teens, and adults, welcoming every family without exception.</p>
+        </div>
+        <div class="card">
+          <h3>Comprehensive Support</h3>
+          <p>Delivers therapies, inclusive education, vocational training, and family support programs.</p>
+        </div>
+        <div class="card">
+          <h3>Proven Track Record</h3>
+          <p>Over three decades of continuous care and community advocacy in Israel and beyond.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="marathon">
+    <div class="container">
+      <h2>The TCS NYC Marathon Challenge</h2>
+      <p class="lead">A team of dedicated runners is taking on 26.2 miles in New York City to make an impact — every runner pledges to raise a minimum of ₪30,000 to participate, and 100% of campaign proceeds go directly toward Shalva's programs.</p>
+      <div class="stat-grid">
+        <div class="stat"><div class="num">100%</div><div class="label">of proceeds go to Shalva's programs</div></div>
+        <div class="stat"><div class="num">₪30,000+</div><div class="label">minimum pledge per runner</div></div>
+        <div class="stat"><div class="num">4 countries</div><div class="label">tax-deductible donation options (US, Israel, UK, Canada)</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="container">
+      <h2>Campaign Progress</h2>
+      <p class="lead">Figures below reflect the campaign total reported on the official Jgive page as of this writing — click through for the live, up-to-date total.</p>
+      <div class="progress-wrap">
+        <div class="progress-track"><div class="progress-fill"></div></div>
+        <p class="progress-note">Over $970,000 raised of a $1,560,283 goal — 8,600+ global donors and counting. <a href="https://www.jgive.com/new/he/ils/donation-targets/167769" target="_blank" rel="noopener"><strong>See live progress →</strong></a></p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="container">
+      <h2>How You Can Help</h2>
+      <div class="steps">
+        <div class="step">
+          <div class="n">1</div>
+          <div><h3>Donate</h3><p>Contribute any amount — directly on the official Team Shalva Jgive campaign page. This page never collects or processes your payment.</p></div>
+        </div>
+        <div class="step">
+          <div class="n">2</div>
+          <div><h3>Learn More</h3><p>Discover Shalva's programs, facilities, and stories on their official website.</p></div>
+        </div>
+        <div class="step">
+          <div class="n">3</div>
+          <div><h3>Spread the Word</h3><p>Share this page or the campaign directly with your network to help reach the goal.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="final-cta">
+    <div class="container">
+      <h2>Ready to make an impact?</h2>
+      <p>Every donation — big or small — helps Team Shalva reach the finish line for a cause that changes lives.</p>
+      <a class="btn btn-primary" href="https://www.jgive.com/new/he/ils/donation-targets/167769" target="_blank" rel="noopener">Donate Now</a>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <p>This is an independent, personal page created to raise awareness for Team Shalva's TCS New York City Marathon fundraiser.</p>
+      <p class="fine-print">I am not an employee, representative, or official spokesperson of Shalva or Team Shalva, and this page is not affiliated with or endorsed by either organization. It exists solely to point visitors to Shalva's official fundraising campaign. All donations are made directly through Shalva's official Jgive campaign page — this site never collects, stores, or processes donations or payment information.</p>
+    </div>
+  </footer>
+
+</body>
+</html>
