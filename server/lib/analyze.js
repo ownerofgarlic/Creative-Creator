@@ -87,4 +87,52 @@ async function analyzePerformance(performance) {
   }
 }
 
-module.exports = { analyzePerformance };
+const MOCK_ALTERNATIVES = [
+  {
+    headline: "365 Days a Year, Shalva Shows Up",
+    description: "Team Shalva NY runs so kids and adults with disabilities get the care they need, every day, not just marathon day.",
+    imageConcept: "Wide shot of the full Team Shalva NY group mid-training-run together, golden hour light, teal team shirts.",
+    assetStudioPrompt: "Wide shot of a diverse charity running team training together at golden hour, teal team shirts, warm and energetic mood, 1200x628 landscape",
+    rationale: "Declined creative leaned on a single-runner emotional angle; this tests a team/community angle instead, still grounded in the winning action-photography format.",
+  },
+  {
+    headline: "Your Donation Goes Further Than a Mile",
+    description: "Back Team Shalva NY 2026 and help fund therapy, education, and community programs year-round.",
+    imageConcept: "Close crop on hands passing a water cup at a race aid station, teal accent, candid documentary style.",
+    assetStudioPrompt: "Candid documentary-style close-up of hands exchanging a water cup at a marathon aid station, teal accent color, natural light, 1200x628 landscape",
+    rationale: "Shifts from a finish-line moment to a support/teamwork moment, in the same proven landscape action format.",
+  },
+];
+
+let mockAlternativeIndex = 0;
+
+async function generateAlternative({ declinedCreative, feedback, campaignContext }) {
+  const mock = String(process.env.MOCK_MODE).toLowerCase() === "true";
+  if (mock || !process.env.ANTHROPIC_API_KEY) {
+    const alt = MOCK_ALTERNATIVES[mockAlternativeIndex % MOCK_ALTERNATIVES.length];
+    mockAlternativeIndex += 1;
+    return alt;
+  }
+
+  const prompt = `You are a performance-marketing creative analyst. The creative concept below was declined by the campaign owner. Propose ONE different replacement concept — a different angle or hook, not a minor rewording — that still fits the campaign goal, landing page, and audience, and still reflects the performance feedback already gathered.
+
+Campaign goal: ${campaignContext.campaignGoal}
+Landing page: ${campaignContext.landingPageUrl}
+Target audience: ${campaignContext.targetAudience}
+Prior performance feedback: ${feedback}
+
+Declined concept:
+${JSON.stringify(declinedCreative, null, 2)}
+
+Respond ONLY with valid JSON in this exact shape, no markdown fences:
+{"headline": "string", "description": "string", "imageConcept": "string", "assetStudioPrompt": "string", "rationale": "string"}`;
+
+  const raw = await callClaude(prompt);
+  try {
+    return JSON.parse(raw);
+  } catch {
+    throw new Error("Could not parse alternative response as JSON: " + raw.slice(0, 500));
+  }
+}
+
+module.exports = { analyzePerformance, generateAlternative };

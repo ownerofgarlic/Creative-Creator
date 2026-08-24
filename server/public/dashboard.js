@@ -52,12 +52,19 @@ function creativeCard(s) {
   const imageHtml = s.imageUrl
     ? `<img class="creative-img" src="${s.imageUrl}" alt="${s.headline}" />`
     : `<p class="concept">${s.imageError ? "(image generation failed: " + s.imageError + ")" : s.imageConcept || ""}</p>`;
+  const pushHtml =
+    s.status === "approved"
+      ? s.pushResult
+        ? `<p class="push-status ok">${s.pushResult.mock ? "Pushed (mock — no real account)" : "Pushed to Google Ads asset group"}</p>`
+        : `<p class="push-status err">Push failed: ${s.pushError || "unknown error"}</p>`
+      : "";
   div.innerHTML = `
     ${statusHtml}
     ${imageHtml}
     <h3>${s.headline}</h3>
     <p>${s.description}</p>
     <p class="rationale">${s.rationale || ""}</p>
+    ${pushHtml}
     ${
       s.status === "pending" || !s.status
         ? `<div class="decision-row">
@@ -82,7 +89,10 @@ function renderSuggestions(list) {
 async function decide(id, decision) {
   try {
     const res = await fetch(`/api/suggestions/${id}/${decision}`, { method: "POST" });
-    if (!res.ok) throw new Error((await res.json()).error || "Failed to update");
+    const body = await res.json();
+    if (!res.ok) throw new Error(body.error || "Failed to update");
+    if (body.alternativeError) showError("Generated a decline, but the replacement idea failed: " + body.alternativeError);
+    else clearError();
     await loadSuggestions();
   } catch (err) {
     showError(err.message);

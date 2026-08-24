@@ -80,6 +80,17 @@ higher-quality output later — the rest of the pipeline doesn't change.
    text.
 4. Shows a feedback summary, a keep/improve/pause verdict per asset, and
    2 new creative suggestions (image + copy) with reasoning.
-5. You **Approve** or **Decline** each suggestion in the dashboard; nothing
-   is pushed to Google Ads automatically — that upload step is a natural
-   next add-on once you're happy with the quality of what gets generated.
+5. Click **Approve** and the headline, description, and image are pushed
+   as three new assets into the *same* Performance Max asset group they
+   were analyzed from, via the Google Ads API (`pushCreativeToAssetGroup`
+   in `server/lib/googleAds.js`) — no manual upload. The card shows
+   "Pushed to Google Ads asset group" once it succeeds, or the API error
+   if it doesn't (nothing is left half-applied).
+6. Click **Decline** and it's marked declined, then a fresh alternative —
+   a different angle, not a reworded headline — is generated and added to
+   the board automatically, with its own image, ready to approve or
+   decline in turn.
+
+In `MOCK_MODE=true`, Approve simulates the push (labeled "mock — no real
+account") instead of calling the real API, so you can test the full
+approve/decline loop before connecting your Google Ads account.

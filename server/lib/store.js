@@ -39,4 +39,17 @@ function setStatus(id, status) {
   return item;
 }
 
-module.exports = { readAll, saveSuggestions, setStatus };
+function getById(id) {
+  return readAll().find((s) => s.id === id) || null;
+}
+
+function updateSuggestion(id, patch) {
+  const all = readAll();
+  const item = all.find((s) => s.id === id);
+  if (!item) return null;
+  Object.assign(item, patch);
+  writeAll(all);
+  return item;
+}
+
+module.exports = { readAll, saveSuggestions, setStatus, getById, updateSuggestion };
