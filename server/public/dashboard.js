@@ -49,11 +49,14 @@ function creativeCard(s) {
     s.status && s.status !== "pending"
       ? `<span class="status-pill ${s.status}">${s.status}</span>`
       : "";
+  const imageHtml = s.imageUrl
+    ? `<img class="creative-img" src="${s.imageUrl}" alt="${s.headline}" />`
+    : `<p class="concept">${s.imageError ? "(image generation failed: " + s.imageError + ")" : s.imageConcept || ""}</p>`;
   div.innerHTML = `
     ${statusHtml}
+    ${imageHtml}
     <h3>${s.headline}</h3>
     <p>${s.description}</p>
-    <p class="concept">${s.imageConcept || ""}</p>
     <p class="rationale">${s.rationale || ""}</p>
     ${
       s.status === "pending" || !s.status

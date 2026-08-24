@@ -46,21 +46,27 @@ Get a free-to-start API key at https://console.anthropic.com and set
 feedback summary and new creative copy/concepts, using your campaign goal,
 landing page, and audience (also set in `.env`) as context.
 
-## Generating the actual new images
+## How the new creatives actually get generated
 
-This tool suggests a headline, description, image *concept*, and a ready-to-
-paste image-generation prompt (`assetStudioPrompt`) for each new creative —
-it doesn't generate images itself, by design: your Performance Max campaign
-already has a free AI image generator built in.
+This is the automated part end to end, no external tool or manual step
+required:
 
-- **Recommended (free, already in your account):** Google Ads → your
-  Performance Max campaign → Asset Studio → "Create with AI", paste the
-  suggested prompt, generate a few options, add the one you like to the
-  asset group.
-- **Alternative (free tier):** Canva or Bing Image Creator, using the same
-  prompt, if you want more manual control over the design.
+1. Claude reads the performance data and writes a headline, description,
+   and an image-generation prompt for each new creative concept.
+2. The server sends that prompt to **Pollinations.ai**
+   (`server/lib/imageGen.js`) — a free, keyless text-to-image API — and
+   saves the returned image to `server/public/generated/`.
+3. The dashboard shows the actual generated image on each creative card,
+   next to Approve/Decline.
 
-A few creatives a week fits comfortably in any of these free tiers.
+No account or API key is needed for image generation; it just works once
+the server can reach the internet. (If image generation fails for any
+reason, the card falls back to showing the text concept instead of the
+image, with the error noted — scanning still completes.)
+
+Swap `generateImage` in `server/lib/imageGen.js` for a different provider
+(e.g. Stability AI, an OpenAI images key, Google's Imagen) if you want
+higher-quality output later — the rest of the pipeline doesn't change.
 
 ## What "Scan Now" does
 
@@ -69,7 +75,11 @@ A few creatives a week fits comfortably in any of these free tiers.
    Google Ads API.
 2. Sends that data — plus your campaign goal, landing page, and target
    audience — to Claude for analysis.
-3. Shows a feedback summary, a keep/improve/pause verdict per asset, and
-   2 new creative suggestions with reasoning.
-4. You **Approve** or **Decline** each suggestion in the dashboard; nothing
-   is pushed to Google Ads automatically.
+3. Generates an actual image for each new creative via a free AI
+   image API (see below), so you're reviewing a real preview, not just
+   text.
+4. Shows a feedback summary, a keep/improve/pause verdict per asset, and
+   2 new creative suggestions (image + copy) with reasoning.
+5. You **Approve** or **Decline** each suggestion in the dashboard; nothing
+   is pushed to Google Ads automatically — that upload step is a natural
+   next add-on once you're happy with the quality of what gets generated.

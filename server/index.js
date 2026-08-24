@@ -4,6 +4,7 @@ const path = require("path");
 
 const { fetchPerformance } = require("./lib/googleAds");
 const { analyzePerformance } = require("./lib/analyze");
+const { generateImage } = require("./lib/imageGen");
 const { readAll, saveSuggestions, setStatus } = require("./lib/store");
 
 const app = express();
@@ -18,7 +19,20 @@ app.post("/api/scan", async (req, res) => {
   try {
     const performance = await fetchPerformance();
     const analysis = await analyzePerformance(performance);
-    const saved = saveSuggestions(analysis.newCreatives || []);
+
+    const withImages = await Promise.all(
+      (analysis.newCreatives || []).map(async (c, i) => {
+        const id = `${Date.now()}-${i}`;
+        try {
+          const imageUrl = await generateImage({ prompt: c.assetStudioPrompt || c.imageConcept, id });
+          return { ...c, imageUrl, imageError: null };
+        } catch (err) {
+          return { ...c, imageUrl: null, imageError: err.message };
+        }
+      })
+    );
+
+    const saved = saveSuggestions(withImages);
     res.json({
       source: performance.source,
       assets: performance.assets,

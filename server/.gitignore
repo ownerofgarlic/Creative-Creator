@@ -1,3 +1,4 @@
 node_modules/
 .env
 data/suggestions.json
+public/generated/*.jpg
